@@ -1,0 +1,6 @@
+Flask==1.1.2
+Flask-Cors==3.0.10
+pbl==1.1.6
+redis==2.10.5
+simplejson==3.17.2
+Werkzeug==0.16.0
