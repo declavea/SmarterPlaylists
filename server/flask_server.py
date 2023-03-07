@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
-from flask.ext.cors import cross_origin
+from flask_cors import CORS, cross_origin
 from werkzeug.contrib.fixers import ProxyFix
 
 import json
