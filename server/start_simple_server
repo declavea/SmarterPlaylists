@@ -1,5 +1,2 @@
-source credentials.sh
-export PBL_CACHE=REDIS
-#./runner.full python flask_server.py
-#gunicorn flask_server:app -b localhost:8000
+source ../env.sh
 python flask_server.py
