@@ -2064,6 +2064,19 @@ def export_inventory():
     inv['components'] = enabled_components
     return inv
 
+def get_genres():
+    if genres_enabled:
+        response = en.get('genre/list', results=2000)
+        gstyle = []
+        for g in response['genres']:
+            gn = g['name']
+            gstyle.append( { 'name': gn, 'value': gn} )
+        return gstyle
+    else:
+        return []
+
+
+
 def check_components():
     for comp in inventory["components"]:
         check_component(comp)
