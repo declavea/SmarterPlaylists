@@ -79,7 +79,7 @@ class ProgramManager:
         dirkey = mkkey('directory', user)
         self.r.rpush(dirkey, pid)
         self.add_stat(pid, 'creation_date', int(time.time()))
-        self.add_info(pid, 'shared', False)
+        self.add_info(pid, 'shared', "False")
         self.add_info(pid, 'owner', user)
         self.add_info(pid, 'name', program['name'])
         self.add_info(pid, 'description', program['description'])
