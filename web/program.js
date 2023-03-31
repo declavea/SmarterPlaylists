@@ -3,7 +3,7 @@ Program = function(inventory, name) {
     this.name = name;
     this.main = null;
     this.description = "my description";
-    this.max_tracks = MAX_TRACKS:
+    this.max_tracks = MAX_TRACKS;
 
     this.components = {}
     this.extra = { },
