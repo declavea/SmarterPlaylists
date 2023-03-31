@@ -513,6 +513,6 @@ function emitMessageOfTheDay(msg, count) {
 
   if (showMessage) {
     motdInfo(msg);
-    localStorage.setItem('motd-count', count.toString());
+    localStorage.setItem('motd-count', mcount.toString());
   }
 }
