@@ -84,11 +84,13 @@ class Scheduler(object):
         return out
         
     def post_job(self, skey, when):
+	dict ={}
+	dict[skey]=when
         print 'posting', skey, 'to run in', when - time.time(), 'secs'
         pipe = self.r.pipeline()
         pipe.hset(skey, 'status', 'queued')
         pipe.hset(skey, 'next_run', when)
-        pipe.zadd(self.job_queue, when, skey)
+        pipe.zadd(self.job_queue, dict)
         pipe.lpush(self.wait_queue, 1)
         pipe.execute()
         self.pm.inc_global_counter("jobs_posted")
