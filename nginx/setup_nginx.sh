@@ -3,4 +3,4 @@
 web_path=$(dirname "$(pwd)")"/web"
 
 # using ? instead of / in the folling sed since pwd output will also contain back slashes
-sed -e"s?WEB_PATH?$web_path?" ./smarterplaylists > /etc/nginx/conf.d/smarterplaylists
+sed -e"s?WEB_PATH?$web_path?" ./smarterplaylists.conf > /etc/nginx/conf.d/smarterplaylists.conf
