@@ -125,7 +125,15 @@ Copy code
 Run the server:
 
 Copy code
-python runserver.py
+nohup python scheduler.py 2>&1 1> scheduler.log &
+nohup python flask_server.py 2>&1 1> flask_server.log &
+
+
+To kill the scheduler:
+kill %1
+
+To kill the flask_server:
+kill %2
 
 
 Open a web browser and go to http://localhost. You should see the SmarterPlaylists home page.
