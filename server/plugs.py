@@ -618,6 +618,47 @@ class MySavedTracks(object):
             # print 'ret', self.name, 'empty'
             return None
 
+class MyRecentlyPlayed(object):
+    ''' A PBL Source that generates a list of the saved tracks
+        by the current suer
+    '''
+
+    def __init__(self):
+        self.name = 'My Saved Tracks'
+        self.buffer = None
+
+    def next_track(self):
+        if self.buffer == None:
+            self.buffer = []
+            try:
+                sp = get_spotify()
+                limit = 50
+                before = None
+                after = None
+
+                results = sp.current_user_recently_played(limit = limit, before = before, after = after)
+                items = results['items']
+                for item in items:
+                    track = item['track']
+                    if track and 'id' in track:
+                        self.buffer.append(track['id'])
+                        spotify_plugs._add_track(self.name, track)
+                    else:
+                        raise pbl.engine.PBLException(self, 'bad track')
+                # print self.name, len(self.buffer), offset, total
+
+
+            except spotipy.SpotifyException as e:
+                raise pbl.engine.PBLException(self, e.msg)
+
+        if len(self.buffer) > 0:
+            tid =  self.buffer.pop(0)
+            # print 'ret', self.name, tid
+            return tid
+        else:
+            # print 'ret', self.name, 'empty'
+            return None
+
 class MyFollowedArtists(object):
     ''' A PBL Source that generates top tracks from followed artist
         by the current user

@@ -1042,6 +1042,24 @@ inventory = {
             "title": "My Saved tracks",
             "params": { }
         },
+
+        {
+            "name": "MyRecentlyPlayed",
+            "class": plugs.MyRecentlyPlayed,
+            "type": "source",
+            "display": "my recently played tracks",
+            "description": "produces a list of the current user's recently 50 played tracks",
+
+            "help": """ This component will generate a stream of 50 tracks from the
+    current user's recently played tracks
+    <br>
+    <span class="label label-warning"> Warning </span> This component may fail if you have a large number
+    of saved tracks.  Someday, this will be fixed.
+    """,
+            "title": "My Recently Played tracks",
+            "params": {}
+        },
+
         {
             "name" : "MyTopTracks",
             "class": plugs.MyTopTracks,
