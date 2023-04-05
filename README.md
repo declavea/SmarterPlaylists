@@ -2,6 +2,8 @@ SmarterPlaylists
 
 SmarterPlaylists is a modified version of the original SmarterPlaylists web application, created by user plamere. The application generates sophisticated playlists on Spotify. The modified version includes fixes to make it usable on the user's local machine.
 
+This branch is a Docker-zed version of the project for easier use and portability.
+
 Prerequisites
 Python (2.7.18)
 Nginx
