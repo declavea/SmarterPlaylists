@@ -1,0 +1,87 @@
+version: '3.1'
+services:
+    nginx:
+        image: nginx:1.13.7
+        container_name: nginx
+        depends_on:
+            - flask
+        volumes:
+            - ./web:/usr/share/nginx/html
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - default
+        depends_on:
+            - flask
+        ports:
+            - "80:80"
+
+    flask:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: flask:0.0.1
+        container_name: flask
+        depends_on:
+            - redis1
+            - redis_cache
+        volumes:
+            - ./server:/code/
+        environment:
+            - FLASK_APP=/code/flask_server.py
+        command: python ./flask_server.py
+        networks:
+            default:
+                aliases:
+                    - flask-app
+        ports:
+            - "5000:5000"
+        expose:
+            - "5000"
+        env_file:
+            - .env
+
+    scheduler:
+        build: .
+        image: app
+        volumes:
+            - ./server:/code/
+        command: python ./scheduler.py 
+        networks:
+            default:
+        depends_on:
+            - flask 
+            - redis1
+            - redis_cache
+        env_file:
+            - .env
+
+
+    redis1:
+        image: redis
+        container_name: redis1
+        volumes:
+            - ./redis:/var/lib/redis
+            - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+        command: redis-server --include /usr/local/etc/redis/redis.conf
+        ports:
+            - "6379:6379"
+        expose:
+            - "6379"
+        networks:
+            - default
+
+    redis_cache:
+        image: redis
+        container_name: redis_cache
+        volumes:
+            - ./redis:/var/lib/redis
+            - ./redis/redis.conf:/usr/local/etc/redis/redis-cache.conf
+        command: redis-server --include /usr/local/etc/redis/redis-cache.conf
+        ports:
+            - "6380:6380"
+        expose:
+            - "6380"
+        networks:
+            - default
+networks:
+    default:
