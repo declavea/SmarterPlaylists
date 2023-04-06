@@ -289,7 +289,7 @@ if __name__ == '__main__':
     import random
     import spotify_auth
 
-    my_redis = redis.StrictRedis(host='localhost', port=6379, db=0)
+    my_redis = redis.StrictRedis(host='redis1', port=6379, db=0)
     my_auth = spotify_auth.SpotifyAuth(r=my_redis)
     my_pm = program_manager.ProgramManager(my_auth, r=my_redis)
 
