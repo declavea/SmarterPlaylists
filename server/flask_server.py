@@ -25,7 +25,7 @@ app.debug = False
 app.trace = False
 app.testing = False
 
-my_redis = redis.StrictRedis(host='localhost', port=6379, db=0)
+my_redis = redis.StrictRedis(host='redis1', port=6379, db=0)
 auth = spotify_auth.SpotifyAuth(r=my_redis)
 pm = program_manager.ProgramManager(auth, r=my_redis)
 scheduler = scheduler.Scheduler(my_redis, pm)
@@ -541,4 +541,4 @@ if __name__ == '__main__':
         http_server = WSGIServer(('', 5000), app)
         http_server.serve_forever()
     else:
-        app.run(threaded=True, debug=False)
+        app.run(host='0.0.0.0', threaded=True, debug=False)
