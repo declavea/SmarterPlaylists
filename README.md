@@ -17,5 +17,7 @@ Steps to run:
 4) Edit the [Projecct_Home]/web/main.js file, and replace the Spotify_client id value
 		line 7: var client_id = 'SPOTIPY_CLIENT_ID';
 5) Edit the [Project_Home]/web/program.js file, and replace the MAX_TRACKS placeholder with the max number of tracks you want each playlist to have (10000 suggested)
-
-
+6) Open a terminal or command line window and run the following command in the [Project_Home] root:
+	docker-compose up
+7) To close the app, hit CTRL-C to kill the processes, then run the command:
+        docker-compose down
