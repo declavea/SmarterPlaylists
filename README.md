@@ -4,147 +4,18 @@ SmarterPlaylists is a modified version of the original SmarterPlaylists web appl
 
 This branch is a Docker-zed version of the project for easier use and portability.
 
-Prerequisites
-Python (2.7.18)
-Nginx
-Redis
-Virtualenv
-A Spotify Developer App API
+Steps to run:
 
-To create a Spotify Developer App API, follow these steps:
-
-Go to developer.spotify.com and log in with your Spotify account.
-Click on the "Dashboard" link.
-Click on "Create an App" and fill in the necessary information.
-Once the app is created, note the Client ID and Client Secret values.
-Add "http://localhost/auth.html" to the list of Redirect URIs.
-Installation
-
-Clone the SmarterPlaylists repository:
-
-bash
-Copy code
-git clone https://github.com/declavea/SmarterPlaylists.git
+1) Install Docker
+2) Get a Spotify developer key at developer.spotify.com
+  a) Copy your CLIENT_ID value
+  b) Copy your CLIENT_SECRET value
+  c) In the Redirect URIs section, add "http://localhost/auth.html"
+3) Edit the [Projet Home]/.env file and replace the placeholders with your Spotify credentials
+		SPOTIPY_CLIENT_ID=[place spotify client id here]
+		SPOTIPY_CLIENT_SECRET=[place spotify secred here]
+4) Edit the [Projecct_Home]/web/main.js file, and replace the Spotify_client id value
+		line 7: var client_id = 'SPOTIPY_CLIENT_ID';
+5) Edit the [Project_Home]/web/program.js file, and replace the MAX_TRACKS placeholder with the max number of tracks you want each playlist to have (10000 suggested)
 
 
-Create a virtual environment:
-
-bash
-Copy code
-virtualenv -p $(which python2) venv
-
-
-Activate the virtual environment:
-
-bash
-Copy code
-source venv/bin/activate
-
-
-Install the required packages:
-
-bash
-Copy code
-pip install -r ./SmarterPlaylists/requirements.txt
-
-
-Configure the environment variables by editing the env.sh file:
-
-bash
-Copy code
-cd SmarterPlaylists
-vi env.sh
-
-
-Add the following lines:
-
-arduino
-Copy code
-export SPOTIPY_CLIENT_ID=<your-client-id>
-export SPOTIPY_CLIENT_SECRET=<your-client-secret>
-export SPOTIPY_REDIRECT_URI=http://localhost/auth.html
-export PBL_CACHE=REDIS
-export MAX_TRACKS=10000
-
-
-Replace <your-client-id> and <your-client-secret> with the values obtained from the Spotify Developer App API.
-
-Source the env.sh file:
-
-bash
-Copy code
-source env.sh
-
-
-Change directory to the nginx folder in the project root directory:
-
-bash
-Copy code
-cd nginx
-
-
-Run the setup_nginx.sh script as sudo:
-
-bash
-Copy code
-sudo ./setup_nginx.sh
-
-
-Restart nginx:
-
-Copy code
-sudo service nginx restart
-
-
-Change directory to the Redis directory in the project root directory:
-
-bash
-Copy code
-cd ../redis
-
-
-Run the stop-redis script to kill any previous Redis instances:
-
-arduino
-Copy code
-./stop-redis
-
-
-If there are any Redis instances still running, kill those PIDs manually with:
-
-bash
-Copy code
-kill -9 <PID>
-
-
-Start Redis by running the start-redis script:
-
-bash
-Copy code
-./start-redis
-
-
-Run the server:
-
-Copy code
-nohup python scheduler.py 2>&1 1> scheduler.log &
-nohup python flask_server.py 2>&1 1> flask_server.log &
-
-
-To kill the scheduler:
-kill %1
-
-To kill the flask_server:
-kill %2
-
-
-Open a web browser and go to http://localhost. You should see the SmarterPlaylists home page.
-
-Usage
-Log in with your Spotify account.
-Select the playlist you want to modify.
-Select the criteria you want to use to modify the playlist.
-Click the "Create Playlist" button.
-License
-
-SmarterPlaylists is licensed under the MIT License.
