@@ -439,6 +439,7 @@ function loginWithSpotifyForAuth() {
     scopes += " user-follow-read"
     scopes += " user-follow-read"
     scopes += " user-top-read"
+    scopes += " user-read-recently-played"
 
     var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
         '&response_type=code' +
