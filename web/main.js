@@ -4,7 +4,7 @@ var editor = null;
 var apiLocalPath = 'http://localhost:5000/SmarterPlaylists/';
 var apiRemotePath = 'http://localhost:5000/SmarterPlaylists/';
 
-var client_id = 'd6ada07274ca490d883148ec4d193bc0';
+var client_id = 'SPOTIPY_CLIENT_ID';
 
 var local_redirect_uri = 'http://localhost/callback.html';
 var remote_redirect_uri = 'http://localhost/callback.html';
