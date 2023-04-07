@@ -1,0 +1,3 @@
+SPOTIPY_CLIENT_ID=[place spotify client id here]
+SPOTIPY_CLIENT_SECRET=[place spotify secred here]
+SPOTIPY_REDIRECT_URI=http://localhost/auth.html
