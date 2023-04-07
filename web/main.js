@@ -4,7 +4,7 @@ var editor = null;
 var apiLocalPath = 'http://localhost:5000/SmarterPlaylists/';
 var apiRemotePath = 'http://localhost:5000/SmarterPlaylists/';
 
-var client_id = 'SPOTIPY_CLIENT_ID';
+var client_id = 'd6ada07274ca490d883148ec4d193bc0';
 
 var local_redirect_uri = 'http://localhost/callback.html';
 var remote_redirect_uri = 'http://localhost/callback.html';
@@ -439,6 +439,7 @@ function loginWithSpotifyForAuth() {
     scopes += " user-follow-read"
     scopes += " user-follow-read"
     scopes += " user-top-read"
+    scopes += " user-read-recently-played"
 
     var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
         '&response_type=code' +
