@@ -1057,8 +1057,19 @@ inventory = {
     of saved tracks.  Someday, this will be fixed.
     """,
             "title": "My Recently Played tracks",
-            "params": {}
+
+            "params": {
+                "invert": {
+                    "type" : "bool",
+                    "optional" : False,
+                    "default" : False,
+                    "description": "if true, the filter is reversed"
+                }
+            }
         },
+
+
+
 
         {
             "name" : "MyTopTracks",

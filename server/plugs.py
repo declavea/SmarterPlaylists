@@ -623,9 +623,10 @@ class MyRecentlyPlayed(object):
         by the current suer
     '''
 
-    def __init__(self):
+    def __init__(self, invert=False):
         self.name = 'My Saved Tracks'
         self.buffer = None
+        self.invert = invert
 
     def next_track(self):
         if self.buffer == None:
@@ -635,14 +636,43 @@ class MyRecentlyPlayed(object):
                 limit = 50
                 before = None
                 after = None
+                start_time = 0
+                prev_end = 0
+                prev_date = None
+                prev_item = None
 
                 results = sp.current_user_recently_played(limit = limit, before = before, after = after)
                 items = results['items']
-                for item in items:
+                for item in reversed(items):
+		    print(item)
                     track = item['track']
                     if track and 'id' in track:
-                        self.buffer.append(track['id'])
-                        spotify_plugs._add_track(self.name, track)
+                        if self.invert:
+                            # Check previous track start time and length, and current track start time.
+                            # If prev start and length is larger than current start, then prev track was skipped.
+                            if prev_item:
+                                prev_date = datetime.datetime.strptime(prev_item['played_at'], "%Y-%m-%dT%H:%M:%S.%fZ")
+                                cur_date = datetime.datetime.strptime(item['played_at'], "%Y-%m-%dT%H:%M:%S.%fZ")
+
+                                prev_end = int(prev_date.strftime('%s')) + (int(prev_item['track']['duration_ms'])/1000)
+                                cur_start = int(cur_date.strftime('%s'))
+
+				print("prev date: ", prev_item['played_at'])
+				print("prev duration: ", prev_item['track']['duration_ms'])
+				print("cur date: ", item['played_at'])
+				print("prev_end: ", prev_end)
+				print("cur_start: ", cur_start)
+				print("---------------------")
+                                if prev_end > cur_start:
+                                    self.buffer.append(track['id'])
+                                    spotify_plugs._add_track(self.name, track)
+
+                            prev_item = item
+
+                        else:
+                            self.buffer.append(track['id'])
+                            spotify_plugs._add_track(self.name, track)
+
                     else:
                         raise pbl.engine.PBLException(self, 'bad track')
                 # print self.name, len(self.buffer), offset, total
