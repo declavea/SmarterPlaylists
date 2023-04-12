@@ -21,3 +21,12 @@ Steps to run:
 	docker-compose up
 7) To close the app, hit CTRL-C to kill the processes, then run the command:
         docker-compose down
+
+----------------
+
+Note: If running in Windows, Hyper-V may pre-reserver certain port ranges that may cause the server to fail (such as binding to port 5000).
+to get around this without uninstalling Hyper-V, just kill the "winnat" service before running the docker-compose up step, then restart it aftwerards.
+
+net stop winnat
+docker start ...
+net start winnat
