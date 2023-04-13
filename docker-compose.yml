@@ -59,6 +59,7 @@ services:
         container_name: redis1
         volumes:
             - ./redis:/var/lib/redis
+            - ./redis/data:/data
             - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
         command: redis-server --include /usr/local/etc/redis/redis.conf
         ports:
@@ -73,6 +74,7 @@ services:
         container_name: redis_cache
         volumes:
             - ./redis:/var/lib/redis
+            - ./redis/data-cache:/data
             - ./redis/redis.conf:/usr/local/etc/redis/redis-cache.conf
         command: redis-server --include /usr/local/etc/redis/redis-cache.conf
         ports:
