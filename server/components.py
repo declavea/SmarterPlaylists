@@ -811,6 +811,26 @@ inventory = {
             }
         },
         {
+            "name": "GenreMix",
+            "class": plugs.GenreMix,
+            "type": "source",
+            "title": "Spotify Mix agregator by genre",
+            "display": "Genre Mixes",
+            "description": "Returns Spotify generated mixes based on the genres of tracks provided",
+
+            "help": """ This source will get the genre values of the tracks provided, then return Spotify curated mixes based on them""",
+
+            "params": {
+                "source": {
+                    "type": "port",
+                    "optional": False,
+                    "port": "green",
+                    "max_inputs": 1,
+                    "description": "the source of the tracks",
+                },
+            }
+        },
+        {
             "name" : "EchoNestArtist",
             "class": pbl.EchoNestArtistPlaylist,
             "type" : "source",

@@ -8,6 +8,7 @@ import simplejson as json
 import time
 import reltime
 import re
+import sys
 
 cache = SimpleCache()
 
@@ -1007,6 +1008,9 @@ class RelativeDatedPlaylistSource(object):
         else:
             return None
 
+
+
+
 class MixIn(object):
     '''
         A PBL Filter that mixes two input streams based upon a small
@@ -1287,6 +1291,79 @@ class WeightedShuffler(object):
             return self.buffer.pop()
         else:
             return None
+
+
+class GenreMix(object):
+    ''' A weighted shuffles the tracks in the stream
+
+        :param source: the source of tracks
+        :param factor: 1 pure random, 0, pure ordered
+    '''
+    def __init__(self, source):
+        self.name = 'Genre Mix ' + source.name
+        self.source = source
+        self.buffer = []
+        self.filling = True
+
+    def getGenres(self):
+        print(self.buffer)
+        sys.stdout.flush()
+        tracks=[]
+        artists=[]
+        genres=[]
+        playlists=[]
+        sp = get_spotify()
+
+        for track in set(self.buffer):
+            result = sp.track(track)
+            for artist in result["artists"]:
+                artists.append(artist["id"])
+
+        for artist in artists:
+            result = sp.artist(artist)
+            for genre in result["genres"]:
+                genres.append(genre)
+
+        genres = list(set(genres))
+        random.shuffle(genres)
+        print(set(genres))
+
+        for genre in genres:
+            #query = "Alternative music picked just for you&type:playlist"
+            query = genre + " music picked just for you"
+            result = sp.search(query, 20, type="playlist")
+            for item in result["playlists"]["items"]:
+                #print(json.dumps(result, indent=2))
+                if item["description"].lower() == str(genre+" music picked just for you").lower():
+                    print(item["description"])
+                    sys.stdout.flush()
+                    playlists.append(item["uri"])
+            break
+
+        if playlists:
+            self.buffer = []
+
+        for playlist in playlists:
+            result = sp.playlist_items(playlist)
+            for item in result["items"]:
+                track = item['track']
+                if track and 'id' in track:
+                    self.buffer.append(track["id"])
+                    spotify_plugs._add_track(self.name, track)
+
+    def next_track(self):
+        while self.filling:
+            track = self.source.next_track()
+            if track:
+                self.buffer.append(track)
+            else:
+                self.getGenres()
+                self.filling = False
+        if len(self.buffer) > 0:
+            return self.buffer.pop()
+        else:
+            return None
+
 
 class MyTopTracks(object):
     ''' returns the your top tracks for a given perioed
